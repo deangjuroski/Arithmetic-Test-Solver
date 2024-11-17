@@ -1,0 +1,35 @@
+﻿@model StudentMathTestSystem.Models.Student
+
+@{
+    ViewBag.Title = "Student Details";
+}
+
+<h2>Exams for Student ID: @Model.ID</h2>
+
+@foreach (var exam in Model.Exams)
+{
+    <h3>Exam ID: @exam.ID</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Task ID</th>
+                <th>Task Text</th>
+                <th>Correct Result</th>
+                <th>Student Result</th>
+                <th>Is Correct</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var task in exam.Tasks)
+            {
+                <tr>
+                    <td>@task.ID</td>
+                    <td>@task.Expression</td>
+                    <td>@task.ExpectedResult</td>
+                    <td>@(task.IsCorrect ? task.ExpectedResult : "Incorrect")</td>
+                    <td>@(task.IsCorrect ? "Yes" : "No")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

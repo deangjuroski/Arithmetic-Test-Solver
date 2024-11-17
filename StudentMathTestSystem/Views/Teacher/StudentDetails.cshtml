@@ -1,0 +1,45 @@
+﻿@model StudentMathTestSystem.Models.StudentDetailsViewModel
+
+<h2>Student Details</h2>
+
+<div class="card p-3">
+    <form asp-action="StudentDetails" method="get">
+        <div class="mb-3">
+            <label for="studentId" class="form-label">Student ID</label>
+            <input type="text" id="studentId" name="StudentId" class="form-control" value="@Model.StudentId" />
+        </div>
+        <button type="submit" class="btn btn-primary">Get Exams</button>
+    </form>
+</div>
+
+@if (Model.Exams != null && Model.Exams.Any())
+{
+    <h3 class="mt-4">Exams for Student ID: @Model.StudentId</h3>
+    @foreach (var exam in Model.Exams)
+    {
+        <h4>Exam ID: @exam.ExamID</h4>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Task ID</th>
+                    <th>Task</th>
+                    <th>Correct Result</th>
+                    <th>Student Result</th>
+                    <th>Correct</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var task in exam.Tasks)
+                {
+                    <tr>
+                        <td>@task.ExamTaskID</td>
+                        <td>@task.Expression</td>
+                        <td>@task.ExpectedResult</td>
+                        <td>@task.StudentResult</td>
+                        <td>@(task.IsCorrect ? "Yes" : "No")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}

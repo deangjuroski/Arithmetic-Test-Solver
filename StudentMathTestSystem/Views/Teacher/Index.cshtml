@@ -1,0 +1,59 @@
+﻿@model IEnumerable<StudentMathTestSystem.Models.Teacher>
+
+@{
+    ViewBag.Title = "Teacher Dashboard";
+}
+
+<div class="bg-white p-4 shadow-sm rounded">
+    <h2 class="text-center text-primary mb-4">Teacher Dashboard</h2>
+
+    <form enctype="multipart/form-data" asp-action="UploadXml" method="post">
+        <div class="mb-3">
+            <label for="file" class="form-label">Upload XML File</label>
+            <input type="file" name="file" id="file" class="form-control" />
+        </div>
+        <button type="submit" class="btn btn-primary">Upload</button>
+    </form>
+
+    @if (!string.IsNullOrEmpty(ViewBag.Message))
+    {
+        <div class="alert alert-success mt-3">@ViewBag.Message</div>
+    }
+
+    @if (Model != null && Model.Any())
+    {
+        <table class="table table-striped mt-4">
+            <thead class="table-light">
+                <tr>
+                    <th>Teacher ID</th>
+                    <th>Students</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var teacher in Model)
+                {
+                    <tr>
+                        <td>@teacher.TeacherID</td>
+                        <td>
+                            <ul class="list-unstyled">
+                                @foreach (var student in teacher.Students)
+                                {
+                                    <li>
+                                        Student ID: @student.StudentID
+                                        <a asp-controller="Teacher" asp-action="ViewStudents" asp-route-studentId="@student.StudentID" class="btn btn-sm btn-outline-info">
+                                            View Results
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-info text-center mt-4">No data available. Please upload a file to proceed.</div>
+    }
+</div>
